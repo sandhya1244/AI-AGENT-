@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  agent-ui:
+    build: .
+    command: python web_ui.py
+    ports:
+      - "5000:5000"
+    env_file:
+      - .env
+    environment:
+      - PORT=5000
+    volumes:
+      - .:/app
+    restart: unless-stopped
+
+  agent-tests:
+    build: .
+    command: python tests/run_tests.py
+    env_file:
+      - .env
+    profiles:
+      - test
